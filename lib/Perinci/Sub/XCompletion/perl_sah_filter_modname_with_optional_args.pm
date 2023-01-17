@@ -80,6 +80,8 @@ sub gen_completion {
 1;
 # ABSTRACT: Generate completion for perl Sah filter module name with optional arguments
 
+=for Pod::Coverage ^(gen_completion)$
+
 =head1 SYNOPSIS
 
 To use, put this in your L<Sah> schema's C<x.completion> attribute:
