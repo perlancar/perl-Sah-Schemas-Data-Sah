@@ -46,7 +46,6 @@ sub gen_completion {
             $word_eq = ",";
         }
 
-        log_trace "D1";
         (my $psf_module = $word_mod) =~ s![/.]!::!g;
 
         my $module = "Data::Sah::Filter::perl::$psf_module";
