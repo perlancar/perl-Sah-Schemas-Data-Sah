@@ -1,4 +1,4 @@
-package Perinci::Sub::XCompletion::perl_sah_filter_modname_with_optional_args;
+package Perinci::Sub::XCompletion::perl_perl_sah_filter_modname_with_optional_args;
 
 use strict;
 use warnings;
