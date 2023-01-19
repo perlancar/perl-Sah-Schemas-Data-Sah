@@ -1,5 +1,6 @@
 package Perinci::Sub::XCompletion::perl_perl_sah_filter_modname_with_optional_args;
 
+use 5.010001;
 use strict;
 use warnings;
 use Log::ger;
@@ -19,7 +20,7 @@ sub gen_completion {
 
         my $word = $cargs{word};
 
-        my ($word_mod, $word_eq, $word_modargs) = $word =~ /\A([^=]*)(=)?(.*?)\z/;
+        my ($word_mod, $word_eq, $word_modargs) = $word =~ /\A([^=,]*)([=,])?(.*?)\z/;
         #log_trace "TMP: word_mod, word_eq, word_modargs = %s, %s, %s", $word_mod, $word_eq, $word_modargs;
 
         unless ($word_eq) {
@@ -38,8 +39,14 @@ sub gen_completion {
 
             # normalize the module part
             $word_mod = ref $modres->{words}[0] eq 'HASH' ? $modres->{words}[0]{word} : $modres->{words}[0];
+
+            # to start args we use "," by default instead of "=" because "=" is
+            # problematic in bash completion because it is used as a
+            # word-breaking character by default (along with @><;|&(:
+            $word_eq = ",";
         }
 
+        log_trace "D1";
         (my $psf_module = $word_mod) =~ s![/.]!::!g;
 
         my $module = "Data::Sah::Filter::perl::$psf_module";
@@ -73,7 +80,7 @@ sub gen_completion {
                 );
             },
         );
-        Complete::Util::modify_answer(answer => $ccsp_res, prefix => "$word_mod=");
+        Complete::Util::modify_answer(answer => $ccsp_res, prefix => "$word_mod$word_eq");
     },
 }
 
@@ -86,6 +93,6 @@ sub gen_completion {
 
 To use, put this in your L<Sah> schema's C<x.completion> attribute:
 
- 'x.completion' => ['perl_sah_filter_modname_with_optional_args'],
+ 'x.completion' => ['perl_perl_sah_filter_modname_with_optional_args'],
 
 =cut
